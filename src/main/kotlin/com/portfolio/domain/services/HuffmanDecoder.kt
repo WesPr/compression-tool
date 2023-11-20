@@ -1,22 +1,23 @@
 package com.portfolio.domain.services
 
-import com.portfolio.commons.convertTo8bits
+import com.portfolio.commons.BinaryUtils
 
 class HuffmanDecoder {
-    fun retrieveEncodedHeaderAndBodyByteArray(parsedFile: ByteArray): Pair<String, ByteArray> {
-        var endOfHeader: String = convertTo8bits(Integer.toBinaryString('\n'.code))
+    fun decodeBody(section: StringBuilder): ByteArray {
+        return BinaryUtils.convert8bitsToByteArray(section.toString())
+    }
+
+    fun retrieveHeaderAndBody(parsedFile: ByteArray): Pair<String, ByteArray> {
+        val endOfHeader: String = BinaryUtils.convertTo8bits(Integer.toBinaryString('\n'.code)).repeat(2)
+
         val header = StringBuilder()
         var doubleKey = StringBuilder()
-        endOfHeader += endOfHeader
         var remainingParsedFileIndex = 0
-        for (b in parsedFile) {
-            val section =
-                String.format(
-                    "%8s",
-                    Integer.toBinaryString(b.toInt() and 0xFF),
-                ).replace(' ', '0')
-            doubleKey.append(section)
-            header.append(section.toInt(2).toChar())
+
+        for (byte in parsedFile) {
+            val binaryString = BinaryUtils.convertByteToBinaryString(byte)
+            doubleKey.append(binaryString)
+            header.append(binaryString.toInt(2).toChar())
             if (doubleKey.length == 16) {
                 if (doubleKey.toString() == endOfHeader) {
                     break
@@ -25,12 +26,21 @@ class HuffmanDecoder {
                 remainingParsedFileIndex++
             }
         }
-        val remainingParsedFile =
-            parsedFile.copyOfRange(remainingParsedFileIndex + 2, parsedFile.size) //advanced index twice
-        return header.toString() to remainingParsedFile
+
+        val body = parsedFile.copyOfRange(remainingParsedFileIndex + 2, parsedFile.size)
+
+        return header.toString() to body
     }
 
-    fun retrieveCodewords(header: String): Map<String, String> {
+    fun retrieveBinaryBody(byteBody: ByteArray): String {
+        val body = StringBuilder()
+        byteBody.forEach { byte ->
+            body.append(BinaryUtils.convertByteToBinaryString(byte))
+        }
+        return body.toString()
+    }
+
+    fun retrieveBinaryLookupTable(header: String): Map<String, String> {
         val lines = header.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         val codewords = mutableMapOf<String, String>()
         for (i in lines.indices) {
@@ -38,18 +48,5 @@ class HuffmanDecoder {
             if (codes.size > 1) codewords[codes[1]] = codes[0]
         }
         return codewords
-    }
-
-    fun retrieveEncodedBody(parsedFile: ByteArray): String {
-        val body = StringBuilder()
-        for (b in parsedFile) {
-            val toRtn =
-                String.format(
-                    "%8s",
-                    Integer.toBinaryString(b.toInt() and 0xFF),
-                ).replace(' ', '0')
-            body.append(toRtn)
-        }
-        return body.toString()
     }
 }

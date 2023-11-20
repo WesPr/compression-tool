@@ -1,5 +1,6 @@
 package com.portfolio.infrastructure.configuration
 
+import com.portfolio.domain.model.HuffmanTree
 import com.portfolio.domain.services.FileCompressionService
 import com.portfolio.domain.services.FileDecompressionService
 import com.portfolio.domain.services.FileProcessor
@@ -14,8 +15,9 @@ class CompressionToolConfiguration {
     fun fileCompressionService(
         fileProcessor: FileProcessor,
         huffmanEncoder: HuffmanEncoder,
+        huffmanTree: HuffmanTree,
     ): FileCompressionService {
-        return FileCompressionService(fileProcessor, huffmanEncoder)
+        return FileCompressionService(fileProcessor, huffmanEncoder, huffmanTree)
     }
 
     @Bean
@@ -39,5 +41,10 @@ class CompressionToolConfiguration {
     @Bean
     fun huffmanDecoder(): HuffmanDecoder {
         return HuffmanDecoder()
+    }
+
+    @Bean
+    fun huffmanTree(): HuffmanTree  {
+        return HuffmanTree()
     }
 }
