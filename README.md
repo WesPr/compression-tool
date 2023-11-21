@@ -1,4 +1,4 @@
-### This is a Kotlin (Spring Boot) implementation of a Compression Tool using Huffman encoding/decoding.
+### This is a Kotlin (Spring Boot) implementation of a compression tool using Huffman encoding/decoding.
 
 #### Compression Results:
 
