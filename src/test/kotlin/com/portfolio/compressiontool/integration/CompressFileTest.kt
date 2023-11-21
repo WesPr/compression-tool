@@ -15,7 +15,7 @@ class CompressFileTest : BaseIntegrationTest() {
         val fileContent = "This is a simple text for testing compression..."
         val file = MockMultipartFile(
             "file",
-            "test.txt",
+            "largeFile.txt",
             "text/plain",
             fileContent.toByteArray()
         )
