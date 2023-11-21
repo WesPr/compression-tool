@@ -25,7 +25,7 @@ class FileUploadController(
         val resource = fileCompressionService.compressFile(file)
 
         return ResponseEntity.ok()
-            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=compressedFile.txt")
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=testDecompress.txt")
             .contentType(MediaType.TEXT_PLAIN)
             .contentLength(resource.size.toLong())
             .body(ByteArrayResource(resource))

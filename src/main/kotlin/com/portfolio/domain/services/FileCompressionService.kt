@@ -2,6 +2,7 @@ package com.portfolio.domain.services
 
 import com.portfolio.commons.BinaryUtils
 import com.portfolio.commons.END_OF_FILE
+import com.portfolio.commons.InvalidFileTypeException
 import com.portfolio.domain.model.HuffmanTree
 import org.springframework.web.multipart.MultipartFile
 
@@ -11,6 +12,7 @@ class FileCompressionService(
     private val huffmanTree: HuffmanTree,
 ) {
     fun compressFile(file: MultipartFile): ByteArray {
+        if (!fileProcessor.fileHasValidMimeType(file.originalFilename!!)) throw InvalidFileTypeException()
         val parsedFile = fileProcessor.readFile(file)
         val characterFrequencyCount = countCharacterFrequencies(parsedFile)
 
