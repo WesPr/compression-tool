@@ -1,6 +1,9 @@
-### This is a Kotlin implementation of a Compression Tool using Huffman encoding/decoding.
+### This is a Kotlin (Spring Boot) implementation of a Compression Tool using Huffman encoding/decoding.
 
-#### Framework: Spring Boot
+#### Compression Results:
+
+* Original File -> 3.291 KB
+* Compressed File -> 1.927 KB
 
 ##### Basics of compression:
 
