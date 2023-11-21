@@ -9,7 +9,7 @@ class DecompressFileTest : BaseIntegrationTest() {
 
     @Test
     fun testValidDecompressFile() {
-        val fileToDecompress = requireNotNull(javaClass.classLoader.getResourceAsStream("testDecompress.txt"))
+        val fileToDecompress = requireNotNull(javaClass.classLoader.getResourceAsStream("compressedTestFile.txt"))
         val file = MockMultipartFile(
             "file",
             "test.txt",
